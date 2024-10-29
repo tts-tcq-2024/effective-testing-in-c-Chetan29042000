@@ -5,7 +5,6 @@ int alertFailureCount = 0;
 
 int networkAlertStub(float celcius) {
     printf("ALERT: Temperature is %.1f celcius.\n", celcius);
-    // Stub returns 500 if temperature exceeds a threshold
     if (celcius > 200.0) {
         return 500;
     }
@@ -16,15 +15,15 @@ void alertInCelcius(float farenheit) {
     float celcius = (farenheit - 32) * 5 / 9;
     int returnCode = networkAlertStub(celcius);
     if (returnCode != 200) {
-        alertFailureCount += 1; // increment the failure count for non-200 responses
+        alertFailureCount += 1;
     }
 }
 
 int main() {
-    alertInCelcius(400.5);
-    alertInCelcius(303.6);
+    alertInCelcius(400.5); // Should increment alertFailureCount
+    alertInCelcius(303.6); // Should not increment alertFailureCount
     printf("%d alerts failed.\n", alertFailureCount);
-    assert(alertFailureCount == 1); // Check if the failure count is as expected
+    assert(alertFailureCount == 1); // Expecting exactly 1 failure
     printf("All is well (maybe!)\n");
     return 0;
 }
